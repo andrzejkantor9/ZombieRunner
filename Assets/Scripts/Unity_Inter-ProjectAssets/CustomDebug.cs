@@ -1,5 +1,4 @@
 using UnityEngine;
-
 //todo custom debug gui log on screen this frame / for time
 
 //todo refactor fps counter code
@@ -37,10 +36,23 @@ public class CustomDebug : MonoBehaviour
 
 #region MidLevelCode
 
-    public static void Log(string message)
+    public static void Log(string message, bool stackInfo = true, [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
     {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+    if(stackInfo)
+    {
+        //using System.diagnostics
+        // StackTrace stackTrace = new StackTrace();
+        // stackTrace.GetFrame(1).GetMethod().
+        filePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+
+        UnityEngine.Debug.Log(message + ". // from: " + filePath);
+    }
+    else
+    {
         UnityEngine.Debug.Log(message);
+    }
+        
 #endif
     } 
 

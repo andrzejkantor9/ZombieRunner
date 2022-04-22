@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //todo introduce delegates here
+//todo check nested regions
+//todo check inspector atributes
 [RequireComponent(typeof(BoxCollider))]
 public class ExampleScript : MonoBehaviour
 {
@@ -57,7 +59,9 @@ public class ExampleScript : MonoBehaviour
 
     void AssertCache()
     {
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
         UnityEngine.Assertions.Assert.IsNotNull(m_boxCollider, $"Script: {GetType().ToString()} variable m_boxCollider is null");
+#endif
     }
 
     /// <summary>
