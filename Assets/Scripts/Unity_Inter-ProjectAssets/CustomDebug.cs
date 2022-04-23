@@ -5,6 +5,7 @@ using UnityEngine;
 //todo scale gui according to screen
 //todo fix - f11 has to be pressed twice on window minimize
 //todo - namescape CustomDebug and separate classes
+//todo - print gameobject name in customdebug
 
 //todo - on start play change layout and change it back on end play
 public class CustomDebug : MonoBehaviour 

@@ -80,6 +80,19 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+
+			Health.OnPlayerDeath += ProcessPlayerDeath;
+		}
+
+		void OnDestroy() 
+		{
+			Health.OnPlayerDeath -= ProcessPlayerDeath;					
+		}
+
+		void ProcessPlayerDeath(GameObject gameObject)
+		{
+			// CustomDebug.Log("you dead, my glip glop");
+			GetComponent<DeathHandler>().HandleDeath();
 		}
 
 		private void Start()

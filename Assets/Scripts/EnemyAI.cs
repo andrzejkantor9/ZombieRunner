@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//todo - clean animations id's list / dictionary
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Health))]
 public class EnemyAI : MonoBehaviour
 {
 #region CACHE
     [Header("CACHE")]
     [SerializeField]
-    Transform m_target;
+    Transform _target;
 
-    NavMeshAgent m_navMeshAgent;
-    Animator m_animator;
+    [SerializeField][HideInInspector]
+    NavMeshAgent _navMeshAgent;
+    [SerializeField][HideInInspector]
+    Animator _animator;
+    [SerializeField][HideInInspector]
+    Health _health;
 
     //Animations Id
     int m_IdleAnimId;
@@ -25,6 +32,8 @@ public class EnemyAI : MonoBehaviour
     [Space(10)][Header("PROPERTIES")]
     [SerializeField]
     float m_chaseRange = 5f;
+    [SerializeField]
+    float m_turnSpeed = 5f;
 #endregion
 
 #region STATES
@@ -34,53 +43,105 @@ public class EnemyAI : MonoBehaviour
 
     ///////////////////////////////////////////////////////////
 
+    void OnValidate() 
+    {        
+        SetupCache();
+    }
+
     void Awake() 
     {
-        m_navMeshAgent = GetComponent<NavMeshAgent>();        
-        m_animator = GetComponent<Animator>();
-
         AssertCache();
+
+        SetupAnimationHashes();
+    }
+
+    void Start()
+    {
+        BindDelegates();
+    }
+
+    private void OnDestroy() 
+    {
+        UnbindDelegates();
+    }
+
+    void Update()
+    {
+        ProcessBehavior();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        DrawSphereChaseRange();
+    }
+
+#region Editor
+
+    void DrawSphereChaseRange()
+    {
+        var color = Color.red;
+        Gizmos.color = color;
+
+        Gizmos.DrawWireSphere(transform.position, m_chaseRange);
+    }
+
+#endregion
+
+#region Setup
+
+    void SetupCache()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();        
+        _animator = GetComponent<Animator>();
+        _health = GetComponent<Health>();
     }
 
     void AssertCache()
     {
-        //asserts
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        UnityEngine.Assertions.Assert.IsNotNull(_target, $"Script: {GetType().ToString()} variable _target is null");
+#endif
     }
 
-    void Start()
+    void SetupAnimationHashes()
     {
         m_IdleAnimId = Animator.StringToHash("Idle");
         m_MoveAnimId = Animator.StringToHash("Move");
         m_AttackAnimId = Animator.StringToHash("Attack");
     }
 
-    void Update() 
+    void BindDelegates()
     {
-        m_distanceToTarget = Vector3.Distance(m_target.position, transform.position);
+        _health.OnTakeDamage += ProcessDamageTaken;
+    }
 
-        if(m_isProvoked)
+    void UnbindDelegates()
+    {
+        _health.OnTakeDamage -= ProcessDamageTaken;
+    }
+
+#endregion
+
+#region PlayerInteraction
+
+    private void ProcessBehavior()
+    {
+        m_distanceToTarget = Vector3.Distance(_target.position, transform.position);
+
+        if (m_isProvoked)
         {
             EngageTarget();
         }
-        else if(m_distanceToTarget <= m_chaseRange)
+        else if (m_distanceToTarget <= m_chaseRange)
         {
             m_isProvoked = true;
-            // m_navMeshAgent.SetDestination(m_target.position);  
-        }           
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        var color = Color.red;
-        // color.a = .8f;
-        Gizmos.color = color;
-
-        Gizmos.DrawWireSphere(transform.position, m_chaseRange);        
+        }
     }
 
     void EngageTarget()
     {
-        if(m_distanceToTarget > m_navMeshAgent.stoppingDistance)
+        FaceTarget();
+        if(m_distanceToTarget > _navMeshAgent.stoppingDistance)
         {
             ChaseTarget();
         }
@@ -90,16 +151,29 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void ProcessDamageTaken(float currentHitPoints)
+    {
+        m_isProvoked = true;
+    }
+
     void ChaseTarget()
     {
-        m_animator.SetBool(m_AttackAnimId, false);
-        m_animator.SetTrigger(m_MoveAnimId);
-        m_navMeshAgent.SetDestination(m_target.position);
+        _animator.SetBool(m_AttackAnimId, false);
+        _animator.SetTrigger(m_MoveAnimId);
+        _navMeshAgent.SetDestination(_target.position);
     }
 
     void AttackTarget()
     {
-        // CustomDebug.Log($"{name} has seeked and is destroying: {m_target.name}");
-        m_animator.SetBool(m_AttackAnimId, true);
+        _animator.SetBool(m_AttackAnimId, true);
     }
+
+    void FaceTarget()
+    {
+        Vector3 direction = (_target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * m_turnSpeed);
+    }
+
+#endregion
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 //TODO why summary on take damage does not work
 //TODO fix on death delegates -they are ugly
+//TODO player death should not be in first person controller
 public class Health : MonoBehaviour
 {
 #region CACHE
@@ -34,6 +35,9 @@ public class Health : MonoBehaviour
     public static event Death OnNonPlayerDeath  = delegate{};
     public static event Death OnPlayerDeath  = delegate{};
 
+    public delegate void TakeDamageDelegate(float currentHitPoints);
+    public event TakeDamageDelegate OnTakeDamage = delegate {};
+
 #endregion
 
     /////////////////////////////////////////////////////////
@@ -52,6 +56,8 @@ public class Health : MonoBehaviour
     public float TakeDamage(float damage)
     {
         m_currentHitPoints -= damage;
+        OnTakeDamage(m_currentHitPoints);
+
         if(m_currentHitPoints <= 0f)
         {
             if(m_isPlayer)
@@ -60,8 +66,10 @@ public class Health : MonoBehaviour
                 OnNonPlayerDeath(gameObject);
 
             Destroy(gameObject, .1f);
+            return m_currentHitPoints;
         }            
 
+        CustomDebug.Log($"current HP: {m_currentHitPoints.ToString()}, object: {gameObject.name}");
         return  m_currentHitPoints;
     }
 

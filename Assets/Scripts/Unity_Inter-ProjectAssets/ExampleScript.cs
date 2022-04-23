@@ -11,17 +11,17 @@ public class ExampleScript : MonoBehaviour
     //CACHE
     [Header("CACHE")]
     [SerializeField][HideInInspector]
-    BoxCollider m_boxCollider;
+    BoxCollider _boxCollider;
 
     const string FRIENDLY_TAG = "Friendly";
     
     //PROPERTIES
     [Space(10)] [Header("PROPERTIES")]
     [SerializeField] [Range(0,1)] [Tooltip("to display in inspector")]
-    float m_speed = 1f; 
+    float _speed = 1f; 
     
     //STATES
-    bool m_isDead;
+    bool _isDead;
 
     ///////////////////////////////////////////////
     //only engine methods without regions
@@ -29,19 +29,18 @@ public class ExampleScript : MonoBehaviour
     //methods called must be below methods calling them
     //#if DEVELOPMENT_BUILD || UNITY_EDITOR
 
-    void OnValidate()
+    private void OnValidate()
     {
         SetupCache();
-        AssertCache();
     }
 
-    void Awake() 
+    private void Awake() 
     {
         AssertCache();
         Initialize();  
     }
 
-    void Update() 
+    private void Update() 
     {
         UnityEngine.Profiling.Profiler.BeginSample($"{GetType().ToString()}: Update");
 
@@ -50,17 +49,17 @@ public class ExampleScript : MonoBehaviour
         UnityEngine.Profiling.Profiler.EndSample();
     }
 
-#region Initialization
+#region Setup
 
-    void SetupCache()
+    private void SetupCache()
     {
-        m_boxCollider = GetComponent<BoxCollider>();
+        _boxCollider = GetComponent<BoxCollider>();
     }
 
-    void AssertCache()
+    private void AssertCache()
     {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        UnityEngine.Assertions.Assert.IsNotNull(m_boxCollider, $"Script: {GetType().ToString()} variable m_boxCollider is null");
+        UnityEngine.Assertions.Assert.IsNotNull(_boxCollider, $"Script: {GetType().ToString()} variable _boxCollider is null");
 #endif
     }
 
@@ -68,7 +67,7 @@ public class ExampleScript : MonoBehaviour
     /// Setup on awake
     /// </summary>
     /// <param name="other">No params here</param>
-    bool Initialize()
+    private bool Initialize()
     {
         string exampleName;
         return true;

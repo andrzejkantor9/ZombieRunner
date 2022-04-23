@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba46722a628e97944b7aaebf7968cc34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
   m_damageAmount: 40
 --- !u!114 &2608837815446748677
 MonoBehaviour:
@@ -66,8 +65,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fedf4e3ef166d4bb229a052704eda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
-  m_chaseRange: 5
+  _target: {fileID: 0}
+  _navMeshAgent: {fileID: 2608837815446748672}
+  _animator: {fileID: 1366052523587044899}
+  _health: {fileID: 4002036311119836059}
+  m_chaseRange: 25
+  m_turnSpeed: 5
 --- !u!114 &4002036311119836059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ca0954061ae534c9ef5acd6e9ae1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxHitPoints: 100
+  m_maxHitPoints: 200
 --- !u!33 &2608837815446748675
 MeshFilter:
   m_ObjectHideFlags: 0
