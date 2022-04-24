@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define JUMP_DISABLED
+
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -107,14 +109,26 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			JumpAndGravity();
-			GroundedCheck();
-			Move();
-			Fire();
+			// JumpAndGravity();
+			// GroundedCheck();
+			// Move();
+			// Fire();
+			// Zoom();
 		}
 
 		private void LateUpdate()
 		{
+			// CameraRotation();
+		}
+
+		private void FixedUpdate() 
+		{
+			JumpAndGravity();
+			GroundedCheck();
+			Move();
+			Fire();
+			Zoom();
+
 			CameraRotation();
 		}
 
@@ -192,8 +206,13 @@ namespace StarterAssets
 		}
 
 		public delegate void FireDelegate(bool isFiring);
-		public static event FireDelegate OnFireChanged;
+		public static event FireDelegate OnFireChanged = delegate {};
+
+		public delegate void ZoomDelegate(bool isFiring);
+		public static event ZoomDelegate OnZoomChanged = delegate{};
+
 		bool isFiring;
+		bool zoomPressed;
 
 		private void Fire()
 		{
@@ -205,8 +224,20 @@ namespace StarterAssets
 			// CustomDebug.Log("fire: " + isFiring.ToString());
 		}
 
+		private void Zoom()
+		{
+			if(zoomPressed != _input.zoom)
+			{
+				zoomPressed = _input.zoom;
+				OnZoomChanged(zoomPressed);
+			}
+		}
+
 		private void JumpAndGravity()
 		{
+// #if JUMP_DISABLED
+// 			return;
+// #endif
 			if (Grounded)
 			{
 				// reset the fall timeout timer
@@ -218,6 +249,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
+#if JUMP_DISABLED
 				// Jump
 				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				{
@@ -230,6 +262,7 @@ namespace StarterAssets
 				{
 					_jumpTimeoutDelta -= Time.deltaTime;
 				}
+#endif
 			}
 			else
 			{

@@ -16,22 +16,26 @@ public class Weapon : MonoBehaviour
     ParticleSystem m_muzzleFlash;
     [SerializeField]
     GameObject m_hitEffect;
+    [SerializeField]
+    private Ammo _ammoSlot;
 
     GameObject m_hitEffectInstance;
+    int _enemyLayer = 1 << 6;
 #endregion
 
 #region PROPERTIES
     [Space(10)] [Header("PROPERTIES")]
     [SerializeField]
     float m_weaponDamage = 30f;
-    [SerializeField]
-    bool m_isOneShotWeapon = true;
     [SerializeField][Range(0f, 1000f)]
     float m_range = 100f;
+    [SerializeField][Range(0f, 20f)]
+    private float _shootingCooldown = 1f;
 #endregion
 
 #region STATES
-    bool m_isShooting;
+    private bool _isShootingInput;
+    private float _lastShootTime;
 #endregion
 
     ////////////////////////////////////////
@@ -41,7 +45,7 @@ public class Weapon : MonoBehaviour
         
         AssertCache();
         
-        StarterAssets.FirstPersonController.OnFireChanged += FireChanged;
+        StarterAssets.FirstPersonController.OnFireChanged += FireInputChanged;
     }
 
     void Start() 
@@ -52,36 +56,44 @@ public class Weapon : MonoBehaviour
 
     void OnDestroy() 
     {
-        StarterAssets.FirstPersonController.OnFireChanged -= FireChanged;
+        StarterAssets.FirstPersonController.OnFireChanged -= FireInputChanged;
     }
 
     void Update() 
     {
-        if(m_isShooting)          
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        UnityEngine.Profiling.Profiler.BeginSample($"{GetType().ToString()}: Update");
+#endif
+        if(_isShootingInput && Time.time > _shootingCooldown + _lastShootTime)          
             Shoot();
+            
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        UnityEngine.Profiling.Profiler.EndSample();
+#endif
     }
 
-    void FireChanged(bool isFiring)
+    void FireInputChanged(bool isFiring)
     {
         // CustomDebug.Log("fire: " + isFiring);
         if(isFiring)
         {
-            m_isShooting = true;
+            _isShootingInput = true;
         }
         else
         {
-            m_isShooting = false;
+            _isShootingInput = false;
         }
     }
 
     void Shoot()
     {
-        PlayMuzzleFlash();
-        ProcessRaycast();
-
-        if (m_isOneShotWeapon)
-            m_isShooting = false;
-
+        if(_ammoSlot.GetCurrentAmmo() > 0)
+        {
+            PlayMuzzleFlash();
+            ProcessRaycast();
+            _ammoSlot.ReduceCurrentAmmo(); 
+            _lastShootTime = Time.time;           
+        }
     }
 
     void PlayMuzzleFlash()
@@ -93,12 +105,12 @@ public class Weapon : MonoBehaviour
     {
         RaycastHit raycastHitInfo;
 
-
-        if (Physics.Raycast(m_FPCamera.transform.position, m_FPCamera.transform.forward, out raycastHitInfo, m_range))
+        if (Physics.Raycast(m_FPCamera.transform.position, m_FPCamera.transform.forward, out raycastHitInfo, m_range, _enemyLayer))
         {
             Health target = raycastHitInfo.transform.GetComponent<Health>();
 
             CreateHitImpact(raycastHitInfo);
+            CustomDebug.Log($"hit target: {raycastHitInfo.transform.gameObject.name}");
             if (target)
             {
                 target.TakeDamage(m_weaponDamage);
@@ -121,6 +133,7 @@ public class Weapon : MonoBehaviour
         UnityEngine.Assertions.Assert.IsNotNull(m_FPCamera, $"Script: {GetType().ToString()} variable m_FPCamera is null");
         UnityEngine.Assertions.Assert.IsNotNull(m_muzzleFlash, $"Script: {GetType().ToString()} variable m_muzzleFlash is null");
         UnityEngine.Assertions.Assert.IsNotNull(m_hitEffect, $"Script: {GetType().ToString()} variable m_hitEffect is null");
+        UnityEngine.Assertions.Assert.IsNotNull(_ammoSlot, $"Script: {GetType().ToString()} variable _ammoSlot is null");
 #endif
     }
 }

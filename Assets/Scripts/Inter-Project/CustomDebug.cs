@@ -110,7 +110,7 @@ public class CustomDebug : MonoBehaviour
 
     private void ProcessMaximizeEditorPlayWindow()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR 
         UnityEngine.InputSystem.Keyboard keyboard = UnityEngine.InputSystem.Keyboard.current;
         if (keyboard != null)
         {

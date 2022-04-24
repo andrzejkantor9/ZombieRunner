@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool fire;
+		public bool zoom;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -51,6 +52,11 @@ namespace StarterAssets
 		{
 			FireInput(value.isPressed);
 		}
+
+		public void OnZoom(InputValue value)
+		{
+			ZoomInput(value.isPressed);
+		}
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -79,6 +85,11 @@ namespace StarterAssets
 		public void FireInput(bool newFireState)
 		{
 			fire = newFireState;
+		}
+
+		public void ZoomInput(bool newZoomState)
+		{
+			zoom = newZoomState;
 		}
 
 #if !UNITY_IOS || !UNITY_ANDROID

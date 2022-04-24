@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //todo - clean animations id's list / dictionary
+//todo visualise range component independent, *with option to reference float variable from other script
+//*todo - add patrol ai script
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -126,6 +128,8 @@ public class EnemyAI : MonoBehaviour
 
     private void ProcessBehavior()
     {
+        if(!_target) return;
+
         m_distanceToTarget = Vector3.Distance(_target.position, transform.position);
 
         if (m_isProvoked)
