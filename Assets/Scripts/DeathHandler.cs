@@ -26,5 +26,8 @@ public class DeathHandler : MonoBehaviour
         // GetComponent<StarterAssets.FirstPersonController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        FindObjectOfType<Weapons.WeaponSwitcher>().enabled = false;
+        Destroy(gameObject);
     }
 }

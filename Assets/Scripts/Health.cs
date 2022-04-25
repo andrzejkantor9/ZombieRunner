@@ -31,9 +31,12 @@ public class Health : MonoBehaviour
 #region delegates
 
     //will it get called for everyone on whatever death?
-    public delegate void Death(GameObject gameObject);
-    public static event Death OnNonPlayerDeath  = delegate{};
-    public static event Death OnPlayerDeath  = delegate{};
+    // public delegate void Death(GameObject gameObject);
+    // public static event Death OnNonPlayerDeath  = delegate{};
+    // public static event Death OnPlayerDeath  = delegate{};
+    
+    public delegate void Death();
+    public event Death OnDeath = delegate {};
 
     public delegate void TakeDamageDelegate(float currentHitPoints);
     public event TakeDamageDelegate OnTakeDamage = delegate {};
@@ -60,17 +63,23 @@ public class Health : MonoBehaviour
 
         if(m_currentHitPoints <= 0f)
         {
-            if(m_isPlayer)
-                OnPlayerDeath(gameObject);
-            else
-                OnNonPlayerDeath(gameObject);
-
-            Destroy(gameObject, .1f);
+            Die();
             return m_currentHitPoints;
         }            
 
-        // CustomDebug.Log($"current HP: {m_currentHitPoints.ToString()}, object: {gameObject.name}");
+        CustomDebug.Log($"current HP: {m_currentHitPoints.ToString()}, object: {gameObject.name}");
         return  m_currentHitPoints;
+    }
+
+    private void Die()
+    {
+        // if(m_isPlayer)
+        //     OnPlayerDeath(gameObject);
+        // else
+        //     OnNonPlayerDeath(gameObject);
+
+        OnDeath();
+
     }
 
 #endregion

@@ -359,6 +359,7 @@ MonoBehaviour:
   m_muzzleFlash: {fileID: 8314827072786338927}
   m_hitEffect: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
   _ammoSlot: {fileID: 0}
+  _ammoType: 1
   m_weaponDamage: 100
   m_range: 10
   _shootingCooldown: 2

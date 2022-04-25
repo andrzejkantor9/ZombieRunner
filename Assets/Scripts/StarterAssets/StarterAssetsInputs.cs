@@ -14,6 +14,9 @@ namespace StarterAssets
 		public bool sprint;
 		public bool fire;
 		public bool zoom;
+		public bool weapon0;
+		public bool weapon1;
+		public bool weapon2;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -57,6 +60,21 @@ namespace StarterAssets
 		{
 			ZoomInput(value.isPressed);
 		}
+
+		public void OnWeapon0(InputValue value)
+		{
+			Weapon0Input(value.isPressed);
+		}
+
+		public void OnWeapon1(InputValue value)
+		{
+			Weapon1Input(value.isPressed);
+		}
+
+		public void OnWeapon2(InputValue value)
+		{
+			Weapon2Input(value.isPressed);
+		}
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -90,6 +108,21 @@ namespace StarterAssets
 		public void ZoomInput(bool newZoomState)
 		{
 			zoom = newZoomState;
+		}
+
+		public void Weapon0Input(bool newWeapon0State)
+		{
+			weapon0 = newWeapon0State;
+		}
+
+		public void Weapon1Input(bool newWeapon1State)
+		{
+			weapon1 = newWeapon1State;
+		}
+
+		public void Weapon2Input(bool newWeapon2State)
+		{
+			weapon2 = newWeapon2State;
 		}
 
 #if !UNITY_IOS || !UNITY_ANDROID

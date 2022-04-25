@@ -23,11 +23,20 @@ namespace InterProject
         [Space(10)] [Header("PROPERTIES")]
         [SerializeField] [Range(0,1)] [Tooltip("to display in inspector")]
         float _speed = 1f; 
+        [SerializeField]
+        private AmmoSlot _ammoSlot;
         
         //STATES
         bool _isDead;
 
-        ///////////////////////////////////////////////
+        [System.Serializable]
+        private struct AmmoSlot
+        {
+            int amount;
+        }
+        //public string str { get; private set; }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //only engine methods without regions
         //only methods inside engine methods
         //methods called must be below methods calling them
@@ -79,6 +88,8 @@ namespace InterProject
         {
             string exampleName;
             return true;
+            //search through all children
+            // foreach (Transform weapon in transform)
         }
         /// ?return? <>
 

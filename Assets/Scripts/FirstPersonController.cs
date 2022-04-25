@@ -83,15 +83,15 @@ namespace StarterAssets
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 
-			Health.OnPlayerDeath += ProcessPlayerDeath;
+			GetComponent<Health>().OnDeath += ProcessPlayerDeath;
 		}
 
 		void OnDestroy() 
 		{
-			Health.OnPlayerDeath -= ProcessPlayerDeath;					
+			GetComponent<Health>().OnDeath -= ProcessPlayerDeath;		
 		}
 
-		void ProcessPlayerDeath(GameObject gameObject)
+		void ProcessPlayerDeath()
 		{
 			// CustomDebug.Log("you dead, my glip glop");
 			GetComponent<DeathHandler>().HandleDeath();
@@ -114,6 +114,10 @@ namespace StarterAssets
 			// Move();
 			// Fire();
 			// Zoom();
+
+			Weapon0();
+			Weapon1();
+			Weapon2();
 		}
 
 		private void LateUpdate()
@@ -127,7 +131,7 @@ namespace StarterAssets
 			GroundedCheck();
 			Move();
 			Fire();
-			Zoom();
+			Zoom();			
 
 			CameraRotation();
 		}
@@ -208,11 +212,22 @@ namespace StarterAssets
 		public delegate void FireDelegate(bool isFiring);
 		public static event FireDelegate OnFireChanged = delegate {};
 
-		public delegate void ZoomDelegate(bool isFiring);
+		public delegate void ZoomDelegate(bool isZoomPressed);
 		public static event ZoomDelegate OnZoomChanged = delegate{};
+
+		public delegate void Weapon0Delegate(bool isWeapon0Selected);
+		public static event Weapon0Delegate OnWeapon0Selected = delegate{};
+		public delegate void Weapon1Delegate(bool isWeapon1Selected);
+		public static event Weapon1Delegate OnWeapon1Selected = delegate{};
+		public delegate void Weapon2Delegate(bool isWeapon2Selected);
+		public static event Weapon2Delegate OnWeapon2Selected = delegate{};
 
 		bool isFiring;
 		bool zoomPressed;
+
+		bool weapon0Pressed;
+		bool weapon1Pressed;
+		bool weapon2Pressed;
 
 		private void Fire()
 		{
@@ -233,6 +248,33 @@ namespace StarterAssets
 			}
 		}
 
+		private void Weapon0()
+		{
+			if(weapon0Pressed != _input.weapon0)
+			{
+				weapon0Pressed = _input.weapon0;
+				OnWeapon0Selected(weapon0Pressed);
+			}
+		}
+
+		private void Weapon1()
+		{
+			if(weapon1Pressed != _input.weapon1)
+			{
+				weapon1Pressed = _input.weapon1;
+				OnWeapon1Selected(weapon1Pressed);
+			}
+		}
+
+		private void Weapon2()
+		{
+			if(weapon2Pressed != _input.weapon2)
+			{
+				weapon2Pressed = _input.weapon2;
+				OnWeapon2Selected(weapon2Pressed);
+			}
+		}
+
 		private void JumpAndGravity()
 		{
 // #if JUMP_DISABLED
@@ -249,7 +291,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-#if JUMP_DISABLED
+#if !JUMP_DISABLED
 				// Jump
 				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				{
@@ -266,6 +308,9 @@ namespace StarterAssets
 			}
 			else
 			{
+#if !JUMP_DISABLED
+#endif
+				// CustomDebug.Log("jump from else");
 				// reset the jump timeout timer
 				_jumpTimeoutDelta = JumpTimeout;
 
