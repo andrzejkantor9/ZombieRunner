@@ -109,11 +109,11 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			// JumpAndGravity();
-			// GroundedCheck();
-			// Move();
-			// Fire();
-			// Zoom();
+			JumpAndGravity();
+			GroundedCheck();
+			Move();
+			Fire();
+			Zoom();	
 
 			Weapon0();
 			Weapon1();
@@ -122,17 +122,6 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
-			// CameraRotation();
-		}
-
-		private void FixedUpdate() 
-		{
-			JumpAndGravity();
-			GroundedCheck();
-			Move();
-			Fire();
-			Zoom();			
-
 			CameraRotation();
 		}
 

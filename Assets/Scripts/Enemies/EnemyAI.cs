@@ -18,6 +18,8 @@ using UnityEngine;
 //todo - add basic UI's main menu, pause, game win
 //todo - weird weapons positions when running
 //todo - do incredible 5 min experience
+//todo - fix changing camera rotation speed after changing weapon few times
+//todo - make current hp display as red vignete
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
