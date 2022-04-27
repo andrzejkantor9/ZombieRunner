@@ -28,6 +28,13 @@ public class DeathHandler : MonoBehaviour
         Cursor.visible = true;
 
         FindObjectOfType<Weapons.WeaponSwitcher>().enabled = false;
+        // Time.timeScale = Mathf.Epsilon;
+        EnemyAI[] allEnemies = FindObjectsOfType<EnemyAI>();
+        foreach(EnemyAI enemy in allEnemies)
+        {
+            enemy.enabled = false;
+        }
+
         Destroy(gameObject);
     }
 }

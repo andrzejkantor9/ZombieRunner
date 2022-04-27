@@ -119,6 +119,7 @@ namespace InterProject
 //     #region CACHE
 
 //         // [Space(10f)][Header("CACHE")]
+//           //[SerializeField][HideInInspector]
 
 //     #endregion
 
@@ -174,6 +175,11 @@ namespace InterProject
 //     #if DEVELOPMENT_BUILD || UNITY_EDITOR
 //             // UnityEngine.Assertions.Assert.IsNotNull(_cinemachineCamera, $"Script: {GetType().ToString()} variable _cinemachineCamera is null");
 //     #endif
+//         }
+
+//         private void Setup()
+//         {
+            
 //         }
 
 //         private void BindDelegates()

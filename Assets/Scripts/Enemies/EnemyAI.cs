@@ -7,6 +7,17 @@ using UnityEngine;
 //*todo - add patrol ai script
 //todo - redo input with my own input actions assets
 //todo - fix camera stutter
+//todo - add footstep component
+//todo - restructure atchitecture so references are gooten in reasonable way, but components are independent
+    //maybe master component on instance transform or game manager
+//todo? - explosion component with sound and particles out of the box
+//todo - equipment namespace instead of weapon
+//todo - pickup class instead of batery and ammo
+//todo - add setup fucntion to example script
+//todo - rockets pickup
+//todo - add basic UI's main menu, pause, game win
+//todo - weird weapons positions when running
+//todo - do incredible 5 min experience
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -16,15 +27,14 @@ public class EnemyAI : MonoBehaviour
 {
 #region CACHE
     [Header("CACHE")]
-    [SerializeField]
-    Transform _target;
-
     [SerializeField][HideInInspector]
     NavMeshAgent _navMeshAgent;
     [SerializeField][HideInInspector]
     Animator _animator;
     [SerializeField][HideInInspector]
     Health _health;
+
+    Transform _target;
 
     //Animations Id
     int m_IdleAnimId;
@@ -60,7 +70,7 @@ public class EnemyAI : MonoBehaviour
     {
         AssertCache();
 
-        SetupAnimationHashes();
+        Setup();
     }
 
     void Start()
@@ -107,12 +117,14 @@ public class EnemyAI : MonoBehaviour
     void AssertCache()
     {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        UnityEngine.Assertions.Assert.IsNotNull(_target, $"Script: {GetType().ToString()} variable _target is null");
+        // UnityEngine.Assertions.Assert.IsNotNull(_target, $"Script: {GetType().ToString()} variable _target is null");
 #endif
     }
 
-    void SetupAnimationHashes()
+    void Setup()
     {
+        _target = FindObjectOfType<StarterAssets.FirstPersonController>().transform;
+
         m_IdleAnimId = Animator.StringToHash("Idle");
         m_MoveAnimId = Animator.StringToHash("Move");
         m_AttackAnimId = Animator.StringToHash("Attack");

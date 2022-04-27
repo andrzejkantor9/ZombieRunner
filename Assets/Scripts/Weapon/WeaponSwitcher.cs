@@ -169,16 +169,20 @@ namespace Weapons
     {
         int weaponIndex = 0;
 
-        foreach (Transform weapon in transform)
+        foreach (Transform weaponTransform in transform)
         {
             if(weaponIndex == _newWeapon)
             {
-                weapon.gameObject.SetActive(true);
+                weaponTransform.gameObject.SetActive(true);
                 _currentWeapon = _newWeapon;
+
+                Weapon weapon = weaponTransform.GetComponent<Weapon>();
+                Weapon._currentAmmoType = weapon._ammoTypeGetter;
+                FindObjectOfType<Ammo>().SetAmmoUIText(weapon._ammoTypeGetter);
             }
             else
             {
-                weapon.gameObject.SetActive(false);
+                weaponTransform.gameObject.SetActive(false);
             }
             ++weaponIndex;
         }

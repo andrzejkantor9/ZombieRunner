@@ -27,8 +27,8 @@ public class SceneLoader : MonoBehaviour
 
     public void ReloadGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
         // Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
         // GetComponent<StarterAssets.FirstPersonController>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

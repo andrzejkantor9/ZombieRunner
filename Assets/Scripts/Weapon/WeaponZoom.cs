@@ -46,7 +46,9 @@ public class WeaponZoom : MonoBehaviour
 
     private void Awake() 
     {
-        AssertCache();        
+        AssertCache();
+
+        Setup();        
     }
 
     private void OnEnable() 
@@ -65,7 +67,6 @@ public class WeaponZoom : MonoBehaviour
     private void SetupCache()
     {
         _cinemachineCamera = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
-        _cinemachineCamera.m_Lens.FieldOfView = _zoomOutFOV;   
 
         // _fpsController = GetComponent<StarterAssets.FirstPersonController>();
     }
@@ -77,6 +78,11 @@ public class WeaponZoom : MonoBehaviour
 
         UnityEngine.Assertions.Assert.IsNotNull(_fpsController, $"Script: {GetType().ToString()} variable _fpsController is null");
 #endif
+    }
+
+    private void Setup()
+    {
+        _cinemachineCamera.m_Lens.FieldOfView = _zoomOutFOV;        
     }
 
     private void BindDelegates()

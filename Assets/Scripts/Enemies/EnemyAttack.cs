@@ -9,6 +9,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField]
     float m_damageAmount = 40f;
 
+    UI.DisplayDamage _damageUIScript;
     StarterAssets.FirstPersonController m_target;
 
 #endregion
@@ -23,7 +24,8 @@ public class EnemyAttack : MonoBehaviour
 
     void Awake() 
     {
-        m_target = FindObjectOfType<StarterAssets.FirstPersonController>();       
+        m_target = FindObjectOfType<StarterAssets.FirstPersonController>();    
+        _damageUIScript = FindObjectOfType<UI.DisplayDamage>();   
     }
 
     void Start() 
@@ -37,9 +39,10 @@ public class EnemyAttack : MonoBehaviour
         if(m_target && !m_isPlayerDead)
         {
             float currentPlayerHp = m_target.GetComponent<Health>().TakeDamage(m_damageAmount);
+            _damageUIScript.ShowDamageImpact(); 
             if(currentPlayerHp <= 0f)
             {
-                m_isPlayerDead = true;   
+                m_isPlayerDead = true;  
             }
         }
     }

@@ -21,7 +21,11 @@ namespace Weapons
         [SerializeField]
         private Ammo _ammoSlot;
         [SerializeField]
-        private Weapons.AmmoType _ammoType;
+        private AmmoType _ammoType;
+            public AmmoType _ammoTypeGetter { get {return _ammoType;}}
+            
+        // [SerializeField]
+        // private TMPro.TextMeshPro _ammoAmountUI;
 
         GameObject m_hitEffectInstance;
         int _enemyLayer = 1 << 6;
@@ -40,6 +44,8 @@ namespace Weapons
     #region STATES
         private bool _isShootingInput;
         private float _lastShootTime;
+
+        public static AmmoType _currentAmmoType;
     #endregion
 
         ////////////////////////////////////////
@@ -56,6 +62,17 @@ namespace Weapons
         {
             m_hitEffectInstance = Instantiate(m_hitEffect);
             // m_hitEffectInstance.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            ChangeCurrentAmmoTypeInfo();            
+        }
+
+        private AmmoType ChangeCurrentAmmoTypeInfo()
+        {
+            _currentAmmoType = _ammoType;
+            return _currentAmmoType;
         }
 
         void OnDestroy() 
@@ -96,7 +113,7 @@ namespace Weapons
                 PlayMuzzleFlash();
                 ProcessRaycast();
                 _ammoSlot.ReduceCurrentAmmo(_ammoType); 
-                _lastShootTime = Time.time;           
+                _lastShootTime = Time.time;         
             }
         }
 
@@ -138,6 +155,7 @@ namespace Weapons
             UnityEngine.Assertions.Assert.IsNotNull(m_muzzleFlash, $"Script: {GetType().ToString()} variable m_muzzleFlash is null");
             UnityEngine.Assertions.Assert.IsNotNull(m_hitEffect, $"Script: {GetType().ToString()} variable m_hitEffect is null");
             UnityEngine.Assertions.Assert.IsNotNull(_ammoSlot, $"Script: {GetType().ToString()} variable _ammoSlot is null");
+            // UnityEngine.Assertions.Assert.IsNotNull(_ammoAmountUI, $"Script: {GetType().ToString()} variable _textMeshPro is null");
     #endif
         }
     }
