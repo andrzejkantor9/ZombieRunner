@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO - make weapon never change position to camera and all be on the same position 
 //todo - fix ais not navigating in bunker
 
 //todo - clean animations id's list / dictionary
