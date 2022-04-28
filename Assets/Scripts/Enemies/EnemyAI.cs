@@ -2,24 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO - make weapon never change position to camera and all be on the same position 
+//todo - fix ais not navigating in bunker
+
 //todo - clean animations id's list / dictionary
-//todo visualise range component independent, *with option to reference float variable from other script
-//*todo - add patrol ai script
-//todo - redo input with my own input actions assets
-//todo - fix camera stutter
-//todo - add footstep component
+//TODO player death should not be in first person controller
+    //TODO fix on death delegates -they are ugly
+//todo - equipment namespace instead of weapon
+//todo - universal pickup class instead of batery and ammo
+
 //todo - restructure atchitecture so references are gooten in reasonable way, but components are independent
     //maybe master component on instance transform or game manager
+    //maybe mvp
+//todo - introduce proper namespaces
+//todo - introduce pure c# class?
+//actions, delegates, interfaces, patterns, addresables, jobs, burst, lambdas, *graphic jobs, shaders, object pool, 
+//*uml, custom editors, clean inspector, pure c#, git branching, naming conventions, dependency injection, scriptable object, unit tests
+//todo - introduce interfaces
+//todo - introduce depencency injection - zenject
+//todo - proper ui references
+//todo - play with inspector look
+//todo - check scriptable object
+//todo - check soft references
+
+//todo - add footstep component
 //todo? - explosion component with sound and particles out of the box
-//todo - equipment namespace instead of weapon
-//todo - pickup class instead of batery and ammo
-//todo - add setup fucntion to example script
 //todo - rockets pickup
 //todo - add basic UI's main menu, pause, game win
-//todo - weird weapons positions when running
-//todo - do incredible 5 min experience
-//todo - fix changing camera rotation speed after changing weapon few times
 //todo - make current hp display as red vignete
+//todo - remove explosion instantiation at start of game
+
+//todo - do incredible 5 min experience
+//todo - redo input with my own input actions assets
+//todo visualise range component independent, *with option to reference float variable from other script
+
+//todo - make things as project universal as possible
+//todo - add last functions to example scrip
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]

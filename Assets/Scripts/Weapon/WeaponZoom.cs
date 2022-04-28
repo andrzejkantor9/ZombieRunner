@@ -11,13 +11,13 @@ public class WeaponZoom : MonoBehaviour
     [Header("PROPERTIES")]
     [SerializeField][Range(1f, 179f)]
     float _zoomInFOV = 20f;
-    [SerializeField][Range(1f, 179f)]
-    float _zoomOutFOV = 60f;
-
-    [SerializeField][Range(1f, 179f)]
+    [SerializeField][Range(0f, 1000f)]
     float _zoomInSensitivity = .1f;
-    [SerializeField][Range(1f, 179f)]
-    float _zoomOutSensitivity = .5f;
+
+    // [SerializeField][Range(1f, 179f)]
+    float _zoomOutFOV;
+    // [SerializeField][Range(1f, 179f)]
+    float _zoomOutSensitivity;
 
 #endregion
 
@@ -82,7 +82,8 @@ public class WeaponZoom : MonoBehaviour
 
     private void Setup()
     {
-        _cinemachineCamera.m_Lens.FieldOfView = _zoomOutFOV;        
+        _zoomOutFOV = _cinemachineCamera.m_Lens.FieldOfView; 
+        _zoomOutSensitivity = _fpsController.RotationSpeed;       
     }
 
     private void BindDelegates()

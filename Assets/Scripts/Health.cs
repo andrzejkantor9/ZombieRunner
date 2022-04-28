@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO why summary on take damage does not work
-//TODO fix on death delegates -they are ugly
-//TODO player death should not be in first person controller
 public class Health : MonoBehaviour
 {
 #region CACHE

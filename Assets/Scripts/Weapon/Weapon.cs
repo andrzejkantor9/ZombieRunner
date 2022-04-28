@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO make never change position to camera
-//TODO fix camera lag, get rid of wobbly camera
-//TODO check health commetns
-//TODO add weapon cd
 namespace Weapons
 {
     public class Weapon : MonoBehaviour
