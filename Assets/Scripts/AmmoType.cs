@@ -1,4 +1,4 @@
-namespace Weapons
+namespace Equipment
 {
     public enum AmmoType : uint
     {

@@ -27,7 +27,7 @@ public class DeathHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        FindObjectOfType<Weapons.WeaponSwitcher>().enabled = false;
+        FindObjectOfType<Equipment.WeaponSwitcher>().enabled = false;
         // Time.timeScale = Mathf.Epsilon;
         EnemyAI[] allEnemies = FindObjectsOfType<EnemyAI>();
         foreach(EnemyAI enemy in allEnemies)

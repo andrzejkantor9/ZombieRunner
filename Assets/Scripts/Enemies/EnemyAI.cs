@@ -2,28 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//todo - fix ais not navigating in bunker
-
-//todo - clean animations id's list / dictionary
-//TODO player death should not be in first person controller
-    //TODO fix on death delegates -they are ugly
-//todo - equipment namespace instead of weapon
 //todo - universal pickup class instead of batery and ammo
 
+//namespaces,
+//naming conventions, write to example script, create example copy script
+//check all inspector attributes
+//pure c#
+//actions, delegates, lambdas,
+//scriptable object
+//jobs, burst, 
+//interfaces
+//dependency injection
+//addresables
+//unit tests
 //todo - restructure atchitecture so references are gooten in reasonable way, but components are independent
     //maybe master component on instance transform or game manager
     //maybe mvp
-//todo - introduce proper namespaces
-//todo - introduce pure c# class?
-//actions, delegates, interfaces, patterns, addresables, jobs, burst, lambdas, *graphic jobs, shaders, object pool, 
-//*uml, custom editors, clean inspector, pure c#, git branching, naming conventions, dependency injection, scriptable object, unit tests
-//todo - introduce interfaces
-//todo - introduce depencency injection - zenject
 //todo - proper ui references
-//todo - play with inspector look
-//todo - check scriptable object
 //todo - check soft references
 
+//assembly definitions, namespaces - write to notes, write cheatsheet about what to consider to use next time
 //todo - add footstep component
 //todo? - explosion component with sound and particles out of the box
 //todo - rockets pickup
@@ -32,11 +30,15 @@ using UnityEngine;
 //todo - remove explosion instantiation at start of game
 
 //todo - do incredible 5 min experience
+    //zombies becoming faster and screaming when shot or after time
 //todo - redo input with my own input actions assets
 //todo visualise range component independent, *with option to reference float variable from other script
 
 //todo - make things as project universal as possible
-//todo - add last functions to example scrip
+//todo - add last functions to example script
+
+//in next project
+//todo - get animator states from editor then create dictionary
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -56,10 +58,12 @@ public class EnemyAI : MonoBehaviour
     Transform _target;
 
     //Animations Id
-    int m_IdleAnimId;
-    int m_MoveAnimId;
-    int m_AttackAnimId;
-    int _DeathAnimId;
+    // int m_IdleAnimId;
+    // int m_MoveAnimId;
+    // int m_AttackAnimId;
+    // int _DeathAnimId;
+
+    Dictionary<AnimationStates, int> _animationHashes = new Dictionary<AnimationStates, int>();
 #endregion
 
 #region PROPERTIES
@@ -77,6 +81,14 @@ public class EnemyAI : MonoBehaviour
     public bool _isDead {get; private set;}
 
 #endregion
+
+    private enum AnimationStates
+    {
+        Idle,
+        Move,
+        Attack,
+        Die
+    }
 
     ///////////////////////////////////////////////////////////
 
@@ -144,10 +156,10 @@ public class EnemyAI : MonoBehaviour
     {
         _target = FindObjectOfType<StarterAssets.FirstPersonController>().transform;
 
-        m_IdleAnimId = Animator.StringToHash("Idle");
-        m_MoveAnimId = Animator.StringToHash("Move");
-        m_AttackAnimId = Animator.StringToHash("Attack");
-        _DeathAnimId = Animator.StringToHash("Die");
+        _animationHashes.Add(AnimationStates.Idle, Animator.StringToHash("Idle"));
+        _animationHashes.Add(AnimationStates.Move, Animator.StringToHash("Move"));
+        _animationHashes.Add(AnimationStates.Attack, Animator.StringToHash("Attack"));
+        _animationHashes.Add(AnimationStates.Die, Animator.StringToHash("Die"));
     }
 
     void BindDelegates()
@@ -166,7 +178,7 @@ public class EnemyAI : MonoBehaviour
     {
         if(_isDead) return;
         
-        _animator.SetTrigger(_DeathAnimId);
+        _animator.SetTrigger(_animationHashes[AnimationStates.Die]);
         _isDead = true;
         enabled = false;
         _navMeshAgent.enabled = false;
@@ -212,14 +224,14 @@ public class EnemyAI : MonoBehaviour
 
     void ChaseTarget()
     {
-        _animator.SetBool(m_AttackAnimId, false);
-        _animator.SetTrigger(m_MoveAnimId);
+        _animator.SetBool(_animationHashes[AnimationStates.Attack], false);
+        _animator.SetTrigger(_animationHashes[AnimationStates.Move]);
         _navMeshAgent.SetDestination(_target.position);
     }
 
     void AttackTarget()
     {
-        _animator.SetBool(m_AttackAnimId, true);
+        _animator.SetBool(_animationHashes[AnimationStates.Attack], true);
     }
 
     void FaceTarget()

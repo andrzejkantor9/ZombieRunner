@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Weapons
+namespace Equipment
 {
     // [RequireComponent(typeof(StarterAssets.FirstPersonController))]
     public class AmmoPickup : MonoBehaviour

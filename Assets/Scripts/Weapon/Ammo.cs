@@ -27,7 +27,7 @@ public class Ammo : MonoBehaviour
     [System.Serializable]
     private class AmmoSlot
     {
-        public Weapons.AmmoType _ammoType;
+        public Equipment.AmmoType _ammoType;
         public int _ammoAmount;
 
         public int ReduceAmmo(int amount = 1)
@@ -102,7 +102,7 @@ public class Ammo : MonoBehaviour
 
 #region AmmoManagement
 
-    public void SetAmmoUIText(Weapons.AmmoType ammoType)
+    public void SetAmmoUIText(Equipment.AmmoType ammoType)
     {
         //so proper weapon gets enabled before we check for weapon type
         StartCoroutine(SetAmmoUITextDelayed());
@@ -112,8 +112,8 @@ public class Ammo : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        Weapons.Weapon[] currentActiveWeapons = FindObjectsOfType<Weapons.Weapon>();
-        if(Weapons.Weapon._currentAmmoType == currentActiveWeapons[0]._ammoTypeGetter)
+        Equipment.Weapon[] currentActiveWeapons = FindObjectsOfType<Equipment.Weapon>();
+        if(Equipment.Weapon._currentAmmoType == currentActiveWeapons[0]._ammoTypeGetter)
         {            
             _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
         }
@@ -121,18 +121,18 @@ public class Ammo : MonoBehaviour
 
     private string SetAmmoUIText()
     {
-        Weapons.Weapon[] currentActiveWeapons = FindObjectsOfType<Weapons.Weapon>();
+        Equipment.Weapon[] currentActiveWeapons = FindObjectsOfType<Equipment.Weapon>();
         _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
 
         return _ammoAmountUI.text;
     }
 
-    public int GetCurrentAmmo(Weapons.AmmoType ammoType)
+    public int GetCurrentAmmo(Equipment.AmmoType ammoType)
     {
         return GetAmmoSlot(ammoType)._ammoAmount;
     }
 
-    public void ReduceCurrentAmmo(Weapons.AmmoType ammoType)
+    public void ReduceCurrentAmmo(Equipment.AmmoType ammoType)
     {
         int newAmmoAmount = GetAmmoSlot(ammoType).ReduceAmmo();
         CustomDebug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
@@ -140,7 +140,7 @@ public class Ammo : MonoBehaviour
         SetAmmoUIText(ammoType);
     }
 
-    public void IncreaseCurrentAmmo(Weapons.AmmoType ammoType, int increaseAmount)
+    public void IncreaseCurrentAmmo(Equipment.AmmoType ammoType, int increaseAmount)
     {
         int newAmmoAmount = GetAmmoSlot(ammoType).IncreaseAmmo(increaseAmount);
         CustomDebug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
@@ -148,7 +148,7 @@ public class Ammo : MonoBehaviour
         SetAmmoUIText(ammoType);
     }
 
-    private AmmoSlot GetAmmoSlot(Weapons.AmmoType ammoType)
+    private AmmoSlot GetAmmoSlot(Equipment.AmmoType ammoType)
     {
         foreach(AmmoSlot slot in _ammoSlots)
         {
