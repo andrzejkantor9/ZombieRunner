@@ -124,7 +124,7 @@ namespace Equipment
 
             if (Physics.Raycast(m_FPCamera.transform.position, m_FPCamera.transform.forward, out raycastHitInfo, m_range, _enemyLayer))
             {
-                Health target = raycastHitInfo.transform.GetComponent<Health>();
+                Combat.Health target = raycastHitInfo.transform.GetComponent<Combat.Health>();
 
                 CreateHitImpact(raycastHitInfo);
                 // CustomDebug.Log($"hit target: {raycastHitInfo.transform.gameObject.name}");

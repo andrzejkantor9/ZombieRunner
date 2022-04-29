@@ -12,18 +12,10 @@ namespace Equipment
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void Awake() 
+        protected override void OnPickup()
         {
-            _pickupEvent.AddListener(Pickup);
-        }
-
-        private void OnDestroy() 
-        {
-            _pickupEvent.RemoveAllListeners();            
-        }
-
-        private void Pickup()
-        {
+            base.OnPickup();
+            
             FindObjectOfType<Ammo>().IncreaseCurrentAmmo(_ammoType, _ammoIncreaseAmount);
         }
     }

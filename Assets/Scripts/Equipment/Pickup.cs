@@ -9,10 +9,11 @@ namespace Equipment
     {
 
     #region Events
+        //wanted to do option to set OnPickup either in editor or in code
         // [SerializeField]
         // bool _assignEventInInspector = false;
         // [SerializeField]
-        protected UnityEngine.Events.UnityEvent _pickupEvent = new UnityEngine.Events.UnityEvent();
+        // protected UnityEngine.Events.UnityEvent OnPickup = new UnityEngine.Events.UnityEvent();
     #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,10 +23,14 @@ namespace Equipment
             if (other.gameObject.CompareTag(MyDebug.Debug.PLAYER_TAG))
             {
                 MyDebug.Debug.Log($"{gameObject.name} picked up!");
-                _pickupEvent.Invoke();
-
-                Destroy(gameObject); 
+                // OnPickup.Invoke();
+                OnPickup();
             }            
+        }
+
+        protected virtual void OnPickup()
+        {
+            Destroy(gameObject, .01f); 
         }
     }
 }

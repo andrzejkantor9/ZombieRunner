@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace Player
 {
     // [RequireComponent(typeof(StarterAssets.FirstPersonController))]
     public class FlashLightSystem : MonoBehaviour

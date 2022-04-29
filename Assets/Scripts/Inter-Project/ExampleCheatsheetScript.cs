@@ -19,6 +19,13 @@ namespace InterProject
             int amount;
         }
 
+        enum CoolEnum : uint
+        {
+            FineEnum = 1,
+            AwesomeEnum = 20,
+            TheBestEnum = 52
+        }
+
         [SerializeField]
         private UnityEngine.Events.UnityEvent _pickupEvent;
 
@@ -29,6 +36,8 @@ namespace InterProject
 
         //////////////////////////////////////////////////////////////////////////////////////
         //place one or more assembly definition
+        //If you have a lot of text, put it in a file. Don’t put it in fields for editing in the inspector. Make it easy to change without having to open the Unity editor, and especially without having to save the scene.
+        //singletons for managers
 
         /// <summary>
         /// Setup on awake

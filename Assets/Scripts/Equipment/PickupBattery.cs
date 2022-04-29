@@ -10,27 +10,19 @@ namespace Equipment
         [SerializeField]
         private float _restoreByIntensity = 30f;
 
-        private FlashLightSystem _flashLightSystem;
+        private Player.FlashLightSystem _flashLightSystem;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private void Awake() 
         {
-            _flashLightSystem = FindObjectOfType<FlashLightSystem>(); 
+            _flashLightSystem = FindObjectOfType<Player.FlashLightSystem>(); 
         }
 
-        private void OnEnable() 
+        protected override void OnPickup()
         {
-            _pickupEvent.AddListener(Pickup);            
-        }
+            base.OnPickup();
 
-        private void OnDisable() 
-        {
-            _pickupEvent.RemoveAllListeners();            
-        }
-
-        private void Pickup()
-        {
             _flashLightSystem.RestoreLightIntensity(_restoreByIntensity);
             _flashLightSystem.RestoreLightAngle(_restoreByAngle);
         }
