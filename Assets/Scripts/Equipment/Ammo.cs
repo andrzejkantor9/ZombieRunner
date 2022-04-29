@@ -135,7 +135,7 @@ public class Ammo : MonoBehaviour
     public void ReduceCurrentAmmo(Equipment.AmmoType ammoType)
     {
         int newAmmoAmount = GetAmmoSlot(ammoType).ReduceAmmo();
-        CustomDebug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
+        MyDebug.Debug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
 
         SetAmmoUIText(ammoType);
     }
@@ -143,7 +143,7 @@ public class Ammo : MonoBehaviour
     public void IncreaseCurrentAmmo(Equipment.AmmoType ammoType, int increaseAmount)
     {
         int newAmmoAmount = GetAmmoSlot(ammoType).IncreaseAmmo(increaseAmount);
-        CustomDebug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
+        MyDebug.Debug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
 
         SetAmmoUIText(ammoType);
     }

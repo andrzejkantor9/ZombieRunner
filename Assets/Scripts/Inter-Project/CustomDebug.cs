@@ -1,5 +1,6 @@
 using UnityEngine;
 //todo custom debug gui log on screen this frame / for time
+//todo profiler begin sample get type inside here
 
 //todo refactor fps counter code
 //todo scale gui according to screen
@@ -8,141 +9,163 @@ using UnityEngine;
 //todo - print gameobject name in customdebug
 
 //todo - on start play change layout and change it back on end play
-public class CustomDebug : MonoBehaviour 
+
+namespace MyDebug
 {
-    GUIStyle textStyle = new GUIStyle();
-
-    ///////////////////////////////////////////////
-
-    private void Awake() 
+    public class Debug : MonoBehaviour 
     {
-        SetupFpsCounter();
-    }
+        GUIStyle textStyle = new GUIStyle();
 
-    void Update()
-    {
-        UnityEngine.Profiling.Profiler.BeginSample($"{GetType().ToString()}: Update");
+    #region StaticProperties
+        public const string PLAYER_TAG = "Player";
+    #endregion
 
-        ProcessMaximizeEditorPlayWindow();
-        ProcessFpsCounter();      
-        ProcessToggleTimescale();  
+        ///////////////////////////////////////////////
 
-        UnityEngine.Profiling.Profiler.EndSample();
-    }
-    
-    void OnGUI()
-    {
-        DisplayFps();
-    }
+        private void Awake() 
+        {
+            SetupFpsCounter();
+        }
 
-#region MidLevelCode
+        void Update()
+        {
+            UnityEngine.Profiling.Profiler.BeginSample($"{GetType().ToString()}: Update");
 
-    public static void Log(string message, bool stackInfo = true, [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
-    {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-    if(stackInfo)
-    {
-        //using System.diagnostics
-        // StackTrace stackTrace = new StackTrace();
-        // stackTrace.GetFrame(1).GetMethod().
-        filePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+            ProcessMaximizeEditorPlayWindow();
+            ProcessFpsCounter();      
+            ProcessToggleTimescale();  
 
-        UnityEngine.Debug.Log(message + ". // from: " + filePath);
-    }
-    else
-    {
-        UnityEngine.Debug.Log(message);
-    }
+            UnityEngine.Profiling.Profiler.EndSample();
+        }
         
-#endif
-    } 
-
-#endregion
-
-#region FpsCounter
-    private float m_fpsCounterUpdateInterval = 0.5f; 
-
-    float accum = 0.0f;
-    int frames = 0;
-    float timeleft;
-    float fps;
-
-    private void DisplayFps()
-    {
-        //Display the fps and round to 2 decimals
-        GUI.Label(new Rect(5, 5, 100, 25), fps.ToString("F2") + "FPS", textStyle);
-    }
-
-    private void ProcessFpsCounter()
-    {
-        timeleft -= Time.deltaTime;
-        accum += Time.timeScale / Time.deltaTime;
-        ++frames;
-
-        // Interval ended - update GUI text and start new interval
-        if (timeleft <= 0.0)
+        void OnGUI()
         {
-            // display two fractional digits (f2 format)
-            fps = (accum / frames);
-            timeleft = m_fpsCounterUpdateInterval;
-            accum = 0.0f;
-            frames = 0;
+            DisplayFps();
         }
 
-        m_lastUpdateTime = Time.time;
-    }
+    #region StaticDebug
 
-    private void SetupFpsCounter()
-    {
-        timeleft = m_fpsCounterUpdateInterval;
-
-        textStyle.fontStyle = FontStyle.Bold;
-        textStyle.normal.textColor = Color.white;
-
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 1000;
-    }
-
-    float m_lastUpdateTime = 0f;
-#endregion
-
-#region MaximizeMinizePlayWindow
-
-    private void ProcessMaximizeEditorPlayWindow()
-    {
-#if UNITY_EDITOR 
-        UnityEngine.InputSystem.Keyboard keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard != null)
+        public static void Log(string message, bool stackInfo = true, [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
         {
-            if (UnityEditor.EditorApplication.isPlaying && keyboard.f11Key.wasPressedThisFrame)
-            {
-                UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized;
-            }
+    #if DEVELOPMENT_BUILD || UNITY_EDITOR
+        if(stackInfo)
+        {
+            //using System.diagnostics
+            // StackTrace stackTrace = new StackTrace();
+            // stackTrace.GetFrame(1).GetMethod().
+            filePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+
+            UnityEngine.Debug.Log(message + ". // from: " + filePath);
         }
-#endif
-    }
+        else
+        {
+            UnityEngine.Debug.Log(message);
+        }
+            
+    #endif
+        } 
 
-#endregion
-
-#region ToggleTimeScale
-    float[] m_timeScaleValues = {1f, .5f, 2f, 5f};
-    int m_currentTimeScaleValue = 0;
-
-    void ProcessToggleTimescale()
-    {
+        public static void BeginSample(string title)
+        {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        UnityEngine.InputSystem.Keyboard keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard != null)
+        UnityEngine.Profiling.Profiler.BeginSample(title);
+#endif
+        }
+
+        public static void EndSample()
         {
-            if (UnityEditor.EditorApplication.isPlaying && keyboard.ctrlKey.isPressed && keyboard.tKey.wasReleasedThisFrame)
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        UnityEngine.Profiling.Profiler.EndSample();
+#endif
+        }
+
+    #endregion
+
+    #region FpsCounter
+        private float m_fpsCounterUpdateInterval = 0.5f; 
+
+        float accum = 0.0f;
+        int frames = 0;
+        float timeleft;
+        float fps;
+
+        private void DisplayFps()
+        {
+            //Display the fps and round to 2 decimals
+            GUI.Label(new Rect(5, 5, 100, 25), fps.ToString("F2") + "FPS", textStyle);
+        }
+
+        private void ProcessFpsCounter()
+        {
+            timeleft -= Time.deltaTime;
+            accum += Time.timeScale / Time.deltaTime;
+            ++frames;
+
+            // Interval ended - update GUI text and start new interval
+            if (timeleft <= 0.0)
             {
-                ++m_currentTimeScaleValue;
-                if(m_currentTimeScaleValue >= m_timeScaleValues.Length)
-                    m_currentTimeScaleValue = 0;
-                Time.timeScale = m_timeScaleValues[m_currentTimeScaleValue];
+                // display two fractional digits (f2 format)
+                fps = (accum / frames);
+                timeleft = m_fpsCounterUpdateInterval;
+                accum = 0.0f;
+                frames = 0;
             }
-        }    
-#endif    
+
+            m_lastUpdateTime = Time.time;
+        }
+
+        private void SetupFpsCounter()
+        {
+            timeleft = m_fpsCounterUpdateInterval;
+
+            textStyle.fontStyle = FontStyle.Bold;
+            textStyle.normal.textColor = Color.white;
+
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 1000;
+        }
+
+        float m_lastUpdateTime = 0f;
+    #endregion
+
+    #region MaximizeMinizePlayWindow
+
+        private void ProcessMaximizeEditorPlayWindow()
+        {
+    #if UNITY_EDITOR 
+            UnityEngine.InputSystem.Keyboard keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null)
+            {
+                if (UnityEditor.EditorApplication.isPlaying && keyboard.f11Key.wasPressedThisFrame)
+                {
+                    UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized;
+                }
+            }
+    #endif
+        }
+
+    #endregion
+
+    #region ToggleTimeScale
+        float[] m_timeScaleValues = {1f, .5f, 2f, 5f};
+        int m_currentTimeScaleValue = 0;
+
+        void ProcessToggleTimescale()
+        {
+    #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            UnityEngine.InputSystem.Keyboard keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null)
+            {
+                if (UnityEditor.EditorApplication.isPlaying && keyboard.ctrlKey.isPressed && keyboard.tKey.wasReleasedThisFrame)
+                {
+                    ++m_currentTimeScaleValue;
+                    if(m_currentTimeScaleValue >= m_timeScaleValues.Length)
+                        m_currentTimeScaleValue = 0;
+                    Time.timeScale = m_timeScaleValues[m_currentTimeScaleValue];
+                }
+            }    
+    #endif    
+        }
+    #endregion
     }
-#endregion
 }

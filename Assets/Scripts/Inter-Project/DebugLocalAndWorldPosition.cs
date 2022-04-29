@@ -13,7 +13,7 @@ namespace MyDebug
             positionInfo = $"Local position: {transform.localPosition.ToString()}" + 
             $", World position: {transform.position.ToString()}, gameObject: {gameObject.name}";
 
-            CustomDebug.Log(positionInfo);
+            Debug.Log(positionInfo);
 #endif            
         }
     }

@@ -361,7 +361,7 @@ MonoBehaviour:
   m_hitEffect: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
   _ammoSlot: {fileID: 0}
   _ammoType: 2
-  m_weaponDamage: 40
+  m_weaponDamage: 50
   m_range: 35
   _shootingCooldown: 1
 --- !u!143 &3195574870163085455
@@ -425,9 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoomInFOV: 20
-  _zoomOutFOV: 60
   _zoomInSensitivity: 0.1
-  _zoomOutSensitivity: 0.5
   _fpsController: {fileID: 0}
   _cinemachineCamera: {fileID: 0}
 --- !u!1 &2337074158997199752

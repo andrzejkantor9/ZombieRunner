@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//todo - universal pickup class instead of batery and ammo
+//addresables - write down when to use actually
 
-//namespaces,
-//naming conventions, write to example script, create example copy script
+//namespaces everywhere
+//naming conventions, write to cheat script
 //check all inspector attributes
 //pure c#
 //actions, delegates, lambdas,
 //scriptable object
 //jobs, burst, 
 //interfaces
+    //do pickups with delegates?
 //dependency injection
-//addresables
 //unit tests
 //todo - restructure atchitecture so references are gooten in reasonable way, but components are independent
     //maybe master component on instance transform or game manager
@@ -24,7 +24,6 @@ using UnityEngine;
 //assembly definitions, namespaces - write to notes, write cheatsheet about what to consider to use next time
 //todo - add footstep component
 //todo? - explosion component with sound and particles out of the box
-//todo - rockets pickup
 //todo - add basic UI's main menu, pause, game win
 //todo - make current hp display as red vignete
 //todo - remove explosion instantiation at start of game
@@ -36,6 +35,9 @@ using UnityEngine;
 
 //todo - make things as project universal as possible
 //todo - add last functions to example script
+//todo - introduce 2 assembies to inter-project folder
+    //?debug?
+//todo - check if i need to pass meta filed of materials to new project
 
 //in next project
 //todo - get animator states from editor then create dictionary
@@ -57,12 +59,7 @@ public class EnemyAI : MonoBehaviour
 
     Transform _target;
 
-    //Animations Id
-    // int m_IdleAnimId;
-    // int m_MoveAnimId;
-    // int m_AttackAnimId;
-    // int _DeathAnimId;
-
+    //Animations Id / hashes
     Dictionary<AnimationStates, int> _animationHashes = new Dictionary<AnimationStates, int>();
 #endregion
 

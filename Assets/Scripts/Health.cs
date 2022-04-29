@@ -64,7 +64,7 @@ public class Health : MonoBehaviour
             return m_currentHitPoints;
         }            
 
-        CustomDebug.Log($"current HP: {m_currentHitPoints.ToString()}, object: {gameObject.name}");
+        MyDebug.Debug.Log($"current HP: {m_currentHitPoints.ToString()}, object: {gameObject.name}");
         return  m_currentHitPoints;
     }
 

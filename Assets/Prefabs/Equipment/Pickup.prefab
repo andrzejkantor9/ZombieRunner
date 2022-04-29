@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6268625767455060637}
   - component: {fileID: 2889820416825333930}
   m_Layer: 0
-  m_Name: AmmoPickup
+  m_Name: Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,5 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f3cb9fabc42c94190ed5b047bac82a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ammoIncreaseAmount: 5
-  _ammoType: 0
+  _pickupEvent:
+    m_PersistentCalls:
+      m_Calls: []
