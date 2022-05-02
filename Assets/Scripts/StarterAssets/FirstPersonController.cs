@@ -83,18 +83,18 @@ namespace StarterAssets
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 
-			GetComponent<Combat.Health>().OnDeath += ProcessPlayerDeath;
+			GetComponent<ZombieRunner.Combat.Health>().OnDeath += ProcessPlayerDeath;
 		}
 
 		void OnDestroy() 
 		{
-			GetComponent<Combat.Health>().OnDeath -= ProcessPlayerDeath;		
+			GetComponent<ZombieRunner.Combat.Health>().OnDeath -= ProcessPlayerDeath;		
 		}
 
 		void ProcessPlayerDeath()
 		{
 			// CustomDebug.Log("you dead, my glip glop");
-			GetComponent<Combat.DeathHandler>().HandleDeath();
+			GetComponent<ZombieRunner.Combat.DeathHandler>().HandleDeath();
 		}
 
 		private void Start()

@@ -1,4 +1,4 @@
-namespace Equipment
+namespace ZombieRunner.Weapons
 {
     public enum AmmoType : uint
     {

@@ -2,51 +2,107 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//actions, delegates, lambdas, predicates
-//check all inspector attributes
-
-//pure c#
 //scriptable object
-//jobs, burst, 
 //interfaces
-    //do pickups with events or interfaces?
+    //do pickups with interfaces?
+//jobs, burst, tasks
 //naming conventions
+//actions, delegates, events, func, lambdas, predicates
+
+//check all inspector attributes
 //dependency injection
 //unit tests
+
 //todo - restructure atchitecture so references are gooten in reasonable way, but components are independent
     //maybe master component on instance transform or game manager
     //maybe mvp
     //make everything as reusable as possible
+    //try to refactor so as little namespace using is needed (in ohter places than given namespace)
+    //architecture - like: saving system, saving wrapper - separating logic layer with access layer
 //todo - proper ui references
 //todo - check soft references
+//pure c#
+    //ammo + split ui and logic
+    //weaponSwitcher + split what needs to be split
+//setup CI pipeline
 
 //todo - add footstep component
-//todo? - explosion component with sound and particles out of the box
+//todo? - explosion component with sound and particles out of the box and event assigment from argon assault
 //todo - add basic UI's main menu, pause, game win
+//todo - ui with controls display
 //todo - make current hp display as red vignete
 //todo - remove explosion instantiation at start of game
+//todo - add hp pickup
 
 //todo - do incredible 5 min experience
     //zombies becoming faster and screaming when shot or after time
 //todo - redo input with my own input actions assets
-//todo visualise range component independent, *with option to reference float variable from other script
+//todo - visualise range component independent, *with option to reference float variable from other script
 
 //todo - clean inter-project folder, introduce 2 assembies to it
     //?debug?
 //todo - check if i need to pass meta filed of materials to new project
+//todo - get mouse raycast from tower defense
 
-//in next project
-//todo - get animator states from editor then create dictionary
-//custom editors (class tooltip, disable inspector param conditionaly)
+//todo - get animator states from editor then create dictionary in editor time
+//custom editors (class tooltip, disable inspector param conditionaly), editor to make ?dialogue?
+
+//plan - co robic
+    //yt
+        //video o gicie
+        //setup fb
+        //setup tik tok, insta
+    //douczanie sie unity na tym projekcie
+        //tak jak spisane powyzej
+    //robienie action combat gry
+        //import universalnych rzeczy co mam juz, setup banana gita
+        //import tps controlera
+            //wylaczenie skoku
+            //poprawienie inputu na event driven i project universal
+        //setup przeciwnika - inny kolor, podchodzi do mnie, zatrzymuje sie, log ze jest gotowy do ataku
+            //wziac z zombie runnera baze na to i poprawic w obu miejscach
+        //setup kwadratowej areny z widzialnymi scianami, podstawowym oswietleniem, camera zoomem i podstawowymi teksturami
+        //setup bg music, main menu, pause menu, footsetpy
+            //z dobra architektura
+        //setup hp
+            //wziac z tego projektu
+            //?1 canvas i osobne prefaby ui?
+            //ja zadaje obrazenia na kliku, przeciwnik co jakis czas
+            //sfxy na zadawaniu i otrzymywaniu obrazen + vfx'y
+            //ui zycia mojego i przeciwnika + prawidlowa architektura tego
+        //setup systemu kombosow
+            //?state pattern?
+            //ja i przeciwnik
+            //?scriptable object?
+            //lr, llrr, lllrr
+            //przeciwnik losujacy jego kombosy
+            //debug piszacyc kto robi co
+        //refactor round
+        //zrobienie placehorderowych anmiacji, import, podpiecie ich pod juz istniejace event
+            //architektura
+        //uniki bohatera
+        //doskoki bossa
+        //przerwanie naszych animacji przez bossa - stagger
+        //setup CI pipeline
+        //camera ?manager? - pokazywanie wazniejszych wydarzen z walki w innych ujeciach
+            //?cinemachine?
+        //trash moby
+        //vertical slice
+        //hp packi
+        //whatever story
+    //sprawdzenie rzeczy w ue5
+        //skonczenie sekcji kursu
+    //robienie / nauka robienia assetow
+        //kurs blendera od gamedev.tv na postacie
 using UnityEngine.AI;
 
-namespace Enemy
+namespace ZombieRunner.Enemy
 {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(Combat.Health))]
+    [RequireComponent(typeof(ZombieRunner.Combat.Health))]
     public class EnemyAI : MonoBehaviour
-    {
+    { 
     #region CACHE
         [Header("CACHE")]
         [SerializeField][HideInInspector]
@@ -54,7 +110,7 @@ namespace Enemy
         [SerializeField][HideInInspector]
         Animator _animator;
         [SerializeField][HideInInspector]
-        Combat.Health _health;
+        ZombieRunner.Combat.Health _health;
 
         Transform _target;
 
@@ -138,7 +194,7 @@ namespace Enemy
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();        
             _animator = GetComponent<Animator>();
-            _health = GetComponent<Combat.Health>();
+            _health = GetComponent<ZombieRunner.Combat.Health>();
         }
 
         void AssertCache()

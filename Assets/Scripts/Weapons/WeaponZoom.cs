@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.Weapons
 {
     public class WeaponZoom : MonoBehaviour
     {
@@ -69,8 +69,6 @@ namespace Equipment
         private void SetupCache()
         {
             _cinemachineCamera = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
-
-            // _fpsController = GetComponent<StarterAssets.FirstPersonController>();
         }
 
         private void AssertCache()

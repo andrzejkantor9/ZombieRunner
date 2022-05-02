@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+namespace ZombieRunner.Player
 {
     // [RequireComponent(typeof(StarterAssets.FirstPersonController))]
     public class FlashLightSystem : MonoBehaviour
@@ -52,16 +52,6 @@ namespace Player
             Setup();      
         }
 
-        private void OnEnable() 
-        {
-            BindDelegates();
-        }
-
-        private void OnDisable() 
-        {
-            UnbindDelegates();
-        }
-
         void Update() 
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
@@ -95,14 +85,6 @@ namespace Player
             _startingLightInstensity = _light.intensity;
             _startingLightOuterAngle = _light.spotAngle;
             _startingLightInnerAngle = _light.innerSpotAngle;
-        }
-
-        private void BindDelegates()
-        {
-        }
-
-        private void UnbindDelegates()
-        {
         }
 
     #endregion

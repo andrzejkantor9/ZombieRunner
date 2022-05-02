@@ -4,7 +4,7 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
-namespace UI
+namespace ZombieRunner.UI
 {
     [RequireComponent(typeof(Image))]
     public class DisplayDamage : MonoBehaviour

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using UnityEngine.SceneManagement;
 
-namespace UI
+namespace ZombieRunner.UI
 {
     public class SceneLoader : MonoBehaviour
     {

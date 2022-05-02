@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Combat
+namespace ZombieRunner.Combat
 {
     public class DeathHandler : MonoBehaviour
     {
@@ -29,10 +29,10 @@ namespace Combat
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            FindObjectOfType<Equipment.WeaponSwitcher>().enabled = false;
+            FindObjectOfType<ZombieRunner.Weapons.WeaponSwitcher>().enabled = false;
             // Time.timeScale = Mathf.Epsilon;
-            Enemy.EnemyAI[] allEnemies = FindObjectsOfType<Enemy.EnemyAI>();
-            foreach(Enemy.EnemyAI enemy in allEnemies)
+            ZombieRunner.Enemy.EnemyAI[] allEnemies = FindObjectsOfType<ZombieRunner.Enemy.EnemyAI>();
+            foreach(ZombieRunner.Enemy.EnemyAI enemy in allEnemies)
             {
                 enemy.enabled = false;
             }

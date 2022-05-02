@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.World
 {
     ///Requires \"Player\" tag, requires to be inherited from by a proper pickup
     public class Pickup : MonoBehaviour

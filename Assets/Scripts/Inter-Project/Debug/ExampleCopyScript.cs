@@ -2,7 +2,7 @@
 // using System.Collections.Generic;
 // using UnityEngine;
 
-// namespace NamespaceName
+// namespace ProjectName.NamespaceName
 // {
 //     // [RequireComponent(typeof(BoxCollider))]
 //     public class ClassName : MonoBehaviour

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.World
 {
     public class PickupBattery : Pickup
     {

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e173a28066ac894b9ec559ba20be05c, type: 3}
+  m_Name: Bullets
+  m_EditorClassIdentifier: 
+  _ammoAmount: 20
+  _ammoType: 0
+  _pickupMeshPrefab: {fileID: 8787908849352107688, guid: 216da355b709ef3448729c76e6fca6c6,
+    type: 3}

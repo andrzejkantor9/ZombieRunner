@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.Weapons
 {
     public class Weapon : MonoBehaviour
     {
@@ -124,7 +124,7 @@ namespace Equipment
 
             if (Physics.Raycast(m_FPCamera.transform.position, m_FPCamera.transform.forward, out raycastHitInfo, m_range, _enemyLayer))
             {
-                Combat.Health target = raycastHitInfo.transform.GetComponent<Combat.Health>();
+                ZombieRunner.Combat.Health target = raycastHitInfo.transform.GetComponent<ZombieRunner.Combat.Health>();
 
                 CreateHitImpact(raycastHitInfo);
                 // CustomDebug.Log($"hit target: {raycastHitInfo.transform.gameObject.name}");

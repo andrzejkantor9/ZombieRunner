@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.Weapons
 {
     public class Ammo : MonoBehaviour
     {
@@ -28,7 +28,7 @@ namespace Equipment
         [System.Serializable]
         private class AmmoSlot
         {
-            public Equipment.AmmoType _ammoType;
+            public ZombieRunner.Weapons.AmmoType _ammoType;
             public int _ammoAmount;
 
             public int ReduceAmmo(int amount = 1)
@@ -48,11 +48,6 @@ namespace Equipment
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void OnValidate() 
-        {
-            SetupCache();    
-        }
-
         private void Awake() 
         {
             AssertCache();        
@@ -63,21 +58,7 @@ namespace Equipment
             StartSetup();
         }
 
-        private void OnEnable() 
-        {
-            BindDelegates();
-        }
-
-        private void OnDisable() 
-        {
-            UnbindDelegates();
-        }
-
     #region Setup
-
-        private void SetupCache()
-        {
-        }
 
         private void AssertCache()
         {
@@ -91,49 +72,16 @@ namespace Equipment
             SetAmmoUIText();
         }
 
-        private void BindDelegates()
-        {
-        }
-
-        private void UnbindDelegates()
-        {
-        }
-
     #endregion
 
     #region AmmoManagement
 
-        public void SetAmmoUIText(Equipment.AmmoType ammoType)
-        {
-            //so proper weapon gets enabled before we check for weapon type
-            StartCoroutine(SetAmmoUITextDelayed());
-        }
-
-        IEnumerator SetAmmoUITextDelayed()
-        {
-            yield return new WaitForEndOfFrame();
-
-            Equipment.Weapon[] currentActiveWeapons = FindObjectsOfType<Equipment.Weapon>();
-            if(Equipment.Weapon._currentAmmoType == currentActiveWeapons[0]._ammoTypeGetter)
-            {            
-                _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
-            }
-        }
-
-        private string SetAmmoUIText()
-        {
-            Equipment.Weapon[] currentActiveWeapons = FindObjectsOfType<Equipment.Weapon>();
-            _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
-
-            return _ammoAmountUI.text;
-        }
-
-        public int GetCurrentAmmo(Equipment.AmmoType ammoType)
+        public int GetCurrentAmmo(ZombieRunner.Weapons.AmmoType ammoType)
         {
             return GetAmmoSlot(ammoType)._ammoAmount;
         }
 
-        public void ReduceCurrentAmmo(Equipment.AmmoType ammoType)
+        public void ReduceCurrentAmmo(ZombieRunner.Weapons.AmmoType ammoType)
         {
             int newAmmoAmount = GetAmmoSlot(ammoType).ReduceAmmo();
             MyDebug.Debug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
@@ -141,7 +89,7 @@ namespace Equipment
             SetAmmoUIText(ammoType);
         }
 
-        public void IncreaseCurrentAmmo(Equipment.AmmoType ammoType, int increaseAmount)
+        public void IncreaseCurrentAmmo(ZombieRunner.Weapons.AmmoType ammoType, int increaseAmount)
         {
             int newAmmoAmount = GetAmmoSlot(ammoType).IncreaseAmmo(increaseAmount);
             MyDebug.Debug.Log($"{ammoType.ToString()} ammo amount: {newAmmoAmount.ToString()}");
@@ -149,7 +97,7 @@ namespace Equipment
             SetAmmoUIText(ammoType);
         }
 
-        private AmmoSlot GetAmmoSlot(Equipment.AmmoType ammoType)
+        private AmmoSlot GetAmmoSlot(ZombieRunner.Weapons.AmmoType ammoType)
         {
             foreach(AmmoSlot slot in _ammoSlots)
             {
@@ -160,6 +108,35 @@ namespace Equipment
             }
 
             return null;
+        }
+
+    #endregion
+
+    #region UI
+
+        public void SetAmmoUIText(ZombieRunner.Weapons.AmmoType ammoType)
+        {
+            //so proper weapon gets enabled before we check for weapon type
+            StartCoroutine(SetAmmoUITextDelayed());
+        }
+
+        IEnumerator SetAmmoUITextDelayed()
+        {
+            yield return new WaitForEndOfFrame();
+
+            ZombieRunner.Weapons.Weapon[] currentActiveWeapons = FindObjectsOfType<ZombieRunner.Weapons.Weapon>();
+            if(ZombieRunner.Weapons.Weapon._currentAmmoType == currentActiveWeapons[0]._ammoTypeGetter)
+            {            
+                _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
+            }
+        }
+
+        private string SetAmmoUIText()
+        {
+            ZombieRunner.Weapons.Weapon[] currentActiveWeapons = FindObjectsOfType<ZombieRunner.Weapons.Weapon>();
+            _ammoAmountUI.text = GetAmmoSlot(currentActiveWeapons[0]._ammoTypeGetter)._ammoAmount.ToString();
+
+            return _ammoAmountUI.text;
         }
 
     #endregion

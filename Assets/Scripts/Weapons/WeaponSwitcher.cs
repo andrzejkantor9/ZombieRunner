@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equipment
+namespace ZombieRunner.Weapons
 {
     // [RequireComponent(typeof(StarterAssets.FirstPersonController))]
     public class WeaponSwitcher : MonoBehaviour
@@ -32,14 +32,8 @@ namespace Equipment
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void OnValidate() 
-        {
-            SetupCache();    
-        }
-
         private void Awake() 
-        {
-            AssertCache();            
+        {          
             Initialize();    
         }
 
@@ -58,31 +52,7 @@ namespace Equipment
             UnbindDelegates();
         }
 
-        void Update() 
-        {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-        UnityEngine.Profiling.Profiler.BeginSample($"{GetType().ToString()}: Update");
-#endif
-
-            
-            
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-        UnityEngine.Profiling.Profiler.EndSample();
-#endif
-        }
-
     #region Setup
-
-        private void SetupCache()
-        {
-        }
-
-        private void AssertCache()
-        {
-    #if DEVELOPMENT_BUILD || UNITY_EDITOR
-            // UnityEngine.Assertions.Assert.IsNotNull(_cinemachineCamera, $"Script: {GetType().ToString()} variable _cinemachineCamera is null");
-    #endif
-        }
 
         private void Initialize()
         {
@@ -187,14 +157,6 @@ namespace Equipment
             ++weaponIndex;
         }
     }
-
-    // private void ProcessInput()
-    // {
-    //     if(_currentWeapon != _newWeapon)
-    //     {
-    //         SetWeaponActive();
-    //     }
-    // }
 
     #endregion
     }

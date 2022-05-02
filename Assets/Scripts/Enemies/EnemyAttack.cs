@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Enemy
+namespace ZombieRunner.Enemy
 {
     public class EnemyAttack : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace Enemy
         [SerializeField]
         float m_damageAmount = 40f;
 
-        UI.DisplayDamage _damageUIScript;
+        ZombieRunner.UI.DisplayDamage _damageUIScript;
         StarterAssets.FirstPersonController m_target;
 
     #endregion
@@ -27,7 +27,7 @@ namespace Enemy
         void Awake() 
         {
             m_target = FindObjectOfType<StarterAssets.FirstPersonController>();    
-            _damageUIScript = FindObjectOfType<UI.DisplayDamage>();   
+            _damageUIScript = FindObjectOfType<ZombieRunner.UI.DisplayDamage>();   
         }
 
         void Start() 
@@ -40,7 +40,7 @@ namespace Enemy
         {
             if(m_target && !m_isPlayerDead)
             {
-                float currentPlayerHp = m_target.GetComponent<Combat.Health>().TakeDamage(m_damageAmount);
+                float currentPlayerHp = m_target.GetComponent<ZombieRunner.Combat.Health>().TakeDamage(m_damageAmount);
                 _damageUIScript.ShowDamageImpact(); 
                 if(currentPlayerHp <= 0f)
                 {
